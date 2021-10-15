@@ -1,0 +1,22 @@
+{
+  "name": "ztblockchain",
+  "version": "1.0.0",
+  "description": "Custom blockchain by ZTB",
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZachariBarnes/ZTBlockchain.git"
+  },
+  "keywords": [
+    "blockchain"
+  ],
+  "author": "Zachari Tyler Barnes",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ZachariBarnes/ZTBlockchain/issues"
+  },
+  "homepage": "https://github.com/ZachariBarnes/ZTBlockchain#readme"
+}
