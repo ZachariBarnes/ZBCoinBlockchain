@@ -4,20 +4,20 @@
 class Blockchain {
     constructor() {
         this.chain = [];
-        this.newTransactions = [];
+        this.pendingTransactions = [];
     }
 
     CreateNewBlock(nonce, preciousBlockHash, hash) {
         const newBlock = {
             index: this.chain.length + 1,
             timestap: Date.now(),
-            transactions: this.newTransactions,
-            nonce,
+            transactions: this.pendingTransactions,
+            nonce, //Proof that this block was created legitmately
             hash,
             preciousBlockHash
         };
     
-        this.newTransactions = [];
+        this.pendingTransactions = [];
         this.chain.push(newBlock);
         return newBlock;
     }
@@ -34,7 +34,8 @@ class Blockchain {
             sender,
             recipient
         };
-        this.newTransactions.push(newTransaction);
+        this.pendingTransactions.push(newTransaction);
+        return this.GetLastBlock()[index]+1; //Return the index of the block that will confirm this transaction.
     }
 }
 
