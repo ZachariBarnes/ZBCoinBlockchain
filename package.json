@@ -1,14 +1,14 @@
 {
-  "name": "ZTBlockchain",
+  "name": "zbcoin-blockchain",
   "version": "1.0.0",
   "description": "Custom blockchain by ZTB",
   "main": "./src/index.js",
   "scripts": {
-    "test": "test"
+    "test": "node src/test.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ZachariBarnes/ZTBlockchain.git"
+    "url": "git+https://github.com/ZachariBarnes/ZBCoinBlockchain.git"
   },
   "keywords": [
     "blockchain"
@@ -16,14 +16,17 @@
   "author": "Zachari Tyler Barnes",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ZachariBarnes/ZTBlockchain/issues"
+    "url": "https://github.com/ZachariBarnes/ZBCoinBlockchain/issues"
   },
-  "homepage": "https://github.com/ZachariBarnes/ZTBlockchain#readme",
+  "homepage": "https://github.com/ZachariBarnes/ZBCoinBlockchain#readme",
   "devDependencies": {
     "eslint": "^7.15.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jsx-a11y": "^6.4.1"
+  },
+  "dependencies": {
+    "sha256": "^0.2.0"
   }
 }
