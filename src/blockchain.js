@@ -42,6 +42,18 @@ class Blockchain {
     const hash = sha256(`${previousBlockHash}${nonce.toString()}${JSON.stringify(currentBlock)}`);
     return hash;
   }
+
+  ProofOfWork(previousBlockHash, currentBlock) {
+    let nonce = 0;
+    let hash = this.HashBlock(previousBlockHash, currentBlock, nonce);
+    let first4 = hash.slice(0, 4);
+    while (first4 !== '0000') {
+      hash = this.HashBlock(previousBlockHash, currentBlock, ++nonce);
+      first4 = hash.slice(0, 4);
+    }
+    console.log(`Block ${hash} Mined Succesfully! Nonce: ${nonce}`);
+    return this.CreateNewBlock(nonce, previousBlockHash, hash);
+  }
 }
 
 module.exports = Blockchain;
