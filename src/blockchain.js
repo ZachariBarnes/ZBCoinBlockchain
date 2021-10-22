@@ -1,20 +1,28 @@
 const sha256 = require('sha256');
-// const rewe;
+
+const HASH_PREFIX = '0000';
 
 class Blockchain {
   constructor() {
     this.chain = [];
     this.pendingTransactions = [];
+    // Create Genesis Block
+    this.CreateNewBlock(0, 'ZTB', 'ZTB');
   }
 
-  CreateNewBlock(nonce, preciousBlockHash, hash) {
+  CreateNewBlock(nonce, previousBlockHash, hash) {
+    if (this.chain.length) {
+      if (hash.slice(0, 4) !== HASH_PREFIX || previousBlockHash.slice(0, 4) !== HASH_PREFIX) {
+        return null; // Invalid block, Don't Create a new block
+      }
+    }
     const newBlock = {
       index: this.chain.length + 1,
       timestap: Date.now(),
       transactions: this.pendingTransactions,
       nonce, // Proof that this block was created legitmately
       hash,
-      preciousBlockHash,
+      previousBlockHash,
     };
 
     this.pendingTransactions = [];
@@ -47,12 +55,13 @@ class Blockchain {
     let nonce = 0;
     let hash = this.HashBlock(previousBlockHash, currentBlock, nonce);
     let first4 = hash.slice(0, 4);
-    while (first4 !== '0000') {
+    while (first4 !== HASH_PREFIX) {
       hash = this.HashBlock(previousBlockHash, currentBlock, ++nonce);
       first4 = hash.slice(0, 4);
     }
     console.log(`Block ${hash} Mined Succesfully! Nonce: ${nonce}`);
-    return this.CreateNewBlock(nonce, previousBlockHash, hash);
+    return nonce;
+    // return this.CreateNewBlock(nonce, previousBlockHash, hash);
   }
 }
 
