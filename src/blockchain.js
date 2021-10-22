@@ -59,7 +59,7 @@ class Blockchain {
       hash = this.HashBlock(previousBlockHash, currentBlock, ++nonce);
       first4 = hash.slice(0, 4);
     }
-    console.log(`Block ${hash} Mined Succesfully! Nonce: ${nonce}`);
+    // console.log(`Block ${hash} Mined Succesfully! Nonce: ${nonce}`);
     return nonce;
     // return this.CreateNewBlock(nonce, previousBlockHash, hash);
   }
