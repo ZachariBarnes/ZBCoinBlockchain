@@ -49,31 +49,59 @@ test('Test creating a transaction', () => {
   expect(testCoin.chain[1].transactions).toStrictEqual([transaction]);
 });
 
-// // Test creating multiple transations
-// testCoin.CreateNewTransaction(50, 'ALEXFWAE543SDF464', 'JENSDF546S5D4F534SF');
-// testCoin.CreateNewTransaction(300, 'ALEXFWAE543SDF464', 'JENSDF546S5D4F534SF');
-// testCoin.CreateNewTransaction(2000, 'ALEXFWAE543SDF464', 'JENSDF546S5D4F534SF');
-// testCoin.CreateNewBlock(2342345, 'AD23GFE435S67', 'SDF5WF432D24');
-// console.log(testCoin.chain[testCoin.chain.length]);
+// Test creating multiple transations
+test('Test creating multiple transactions', () => {
+  const transaction1 = {
+    amount: 100,
+    sender: 'ALEXFWAE543SDF464',
+    recipient: 'JENSDF546S5D4F534SF',
+  };
+  const transaction2 = {
+    amount: 200,
+    sender: 'ALEXFWAE543SDF464',
+    recipient: 'JENSDF546S5D4F534SF',
+  };
+  testCoin.CreateNewTransaction(transaction1.amount, transaction1.sender, transaction1.recipient);
+  testCoin.CreateNewTransaction(transaction2.amount, transaction2.sender, transaction2.recipient);
+  testCoin.CreateNewBlock(32423452, '0000ADSDGFE435S67', '0000SDFERWF432D24');
+  expect(testCoin.chain.length).toBe(2);
+  expect(testCoin.chain[1].transactions).toStrictEqual([transaction1, transaction2]);
+});
 
-// // Test HashBlock Method
-// const prevHash = 'SA65F465S4DF6SA54FASDF';
-// const currentBlock = [
-//   testCoin.CreateNewTransaction(2000, 'ALEXFWAE543SDF464', 'JENSDF546S5D4F534SF'),
-//   testCoin.CreateNewTransaction(300, 'ALEXFWAE543SDF464', 'JENSDF546S5D45534SF'),
-//   testCoin.CreateNewTransaction(100, 'ALEXFWAE543SDF464', 'JENSDF546S5D8S534SF'),
-// ];
-// const nonce = 100;
+// Test HashBlock Method
+test('Test Hashing Blocks', () => {
+  testCoin.CreateNewTransaction(2000, 'ALEXFWAE543SDF464', 'JENSDF546S5D4F534SF');
+  const block = {
+    index: 1,
+    timestamp: 15234545,
+    transactions: [{
+      amount: 100,
+      sender: 'ALEXFWAE543SDF464',
+      recipient: 'JENSDF546S5D4F534SF',
+    }],
+    nonce: 15234545,
+    previousHash: 'AFSFDWEFWGASADW',
+  };
+  const hash = '2919b034e036a991230a678075cd04993b800897186a7d574d944a7b8ef8296d';
+  expect(testCoin.HashBlock('AFSFDWEFWGASADW', block, 15234545)).toBe(hash);
+});
 
-// console.log(testCoin.HashBlock(prevHash, currentBlock, nonce));
-
-// console.log(testCoin);
-
-// // Test Proof of work
-// testCoin.CreateNewTransaction(300, 'ALEXFWAE543SDF464', 'JENSDF546S5D45534SF');
-// testCoin.CreateNewTransaction(100, 'ALEXFWAE543SDF464', 'JENSDF546S5D8S534SF');
-// // const nonce = bitcoin.ProofOfWork('AD23GFE435S67', 'SDF5WF432D24');
-// const block = testCoin.HashBlock('AD23GFE435S67', 'SDF5WF432D24', 111581);
-// console.log(block);
-
-// console.log(testCoin);
+// Test Proof of work
+test('Test ProofOfWork', () => {
+  testCoin.CreateNewTransaction(2000, 'ALEXFWAE543SDF464', 'JENSDF546S5D4F534SF');
+  const block = {
+    index: 1,
+    timestamp: 15234545,
+    transactions: [{
+      amount: 100,
+      sender: 'ALEXFWAE543SDF464',
+      recipient: 'JENSDF546S5D4F534SF',
+    }],
+    nonce: 15234545,
+    previousHash: '2919b034e036a991230a678075cd04993b800897186a7d574d944a7b8ef8296d',
+  };
+  const nonce = testCoin.ProofOfWork('2919b034e036a991230a678075cd04993b800897186a7d574d944a7b8ef8296d', block);
+  expect(nonce).toBe(43930);
+  const hash = testCoin.HashBlock('2919b034e036a991230a678075cd04993b800897186a7d574d944a7b8ef8296d', block, nonce);
+  expect(hash.slice(0, 4)).toBe('0000');
+});
