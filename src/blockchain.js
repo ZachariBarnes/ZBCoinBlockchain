@@ -43,7 +43,7 @@ class Blockchain {
       recipient,
     };
     this.pendingTransactions.push(newTransaction);
-    return this.GetLastBlock()[this.index] + 1; // Return the index of the block that will confirm this transaction.
+    return this.GetLastBlock().index + 1; // Return the index of the block that will confirm this transaction.
   }
 
   HashBlock(previousBlockHash, currentBlock, nonce) {
