@@ -1,10 +1,10 @@
 require('dotenv').config();
-const uuid = require('uuid/v4');
+const uuid = require('uuid');
 const express = require('express');
 const logger = require('npmlog');
 const Blockchain = require('./blockchain');
 
-const nodeAddress = uuid().split('-').join('');
+const nodeAddress = uuid.v4().split('-').join('');
 const ztblockChain = new Blockchain();
 const port = process.env.PORT || 2500;
 const app = express();
