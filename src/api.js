@@ -28,7 +28,7 @@ app.get('/mine', (req, res) => {
   const nonce = ztblockChain.ProofOfWork(previousBlockHash, currentBlockData);
   const blockHash = ztblockChain.HashBlock(previousBlockHash, currentBlockData, nonce);
   // Reward the miner
-  ztblockChain.CreateNewTransaction(12.5, '00', '00'/* recipient Address */);
+  ztblockChain.CreateNewTransaction(12.5, '00', nodeAddress);
   const newBlock = ztblockChain.CreateNewBlock(nonce, previousBlockHash, blockHash);
   res.json({ note: 'New Block mined successfully.', block: newBlock.index });
 });
