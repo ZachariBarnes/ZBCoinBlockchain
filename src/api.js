@@ -33,6 +33,10 @@ app.get('/mine', (req, res) => {
   res.json({ note: 'New Block mined successfully.', block: newBlock.index });
 });
 
+app.get('/pending-transactions',(req,res)=>{
+  res.status(200).send(zbCoin.GetLastBlock().pendingTransactions);
+});
+
 app.listen(port, () => {
   logger.info(`Server started on port ${port}`);
   logger.info('==================================');
