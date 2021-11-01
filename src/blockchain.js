@@ -11,7 +11,7 @@ class Blockchain {
   }
 
   CreateNewBlock(nonce, previousBlockHash, hash) {
-    if (this.chain.length) {
+    if (this.chain.length > 1) {
       if (hash.slice(0, 4) !== HASH_PREFIX || previousBlockHash.slice(0, 4) !== HASH_PREFIX) {
         return null; // Invalid block, Don't Create a new block
       }
