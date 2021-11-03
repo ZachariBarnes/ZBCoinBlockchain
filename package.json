@@ -4,7 +4,13 @@
   "description": "Custom blockchain by ZTB",
   "main": "./src/index.js",
   "scripts": {
-    "start": "nodemon ./src/api.js ",
+    "start": "nodemon ./src/networkNode.js",
+    "node0": "npm start 3000",
+    "node1": "npm start 3001",
+    "node2": "npm start 3002",
+    "node3": "npm start 3003",
+    "node4": "npm start 3004",
+    "start-network": "npm run node0 && npm run node1 && npm run node 3 && npm run node4",
     "test": "./node_modules/.bin/jest "
   },
   "repository": {
