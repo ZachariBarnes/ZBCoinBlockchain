@@ -38,6 +38,7 @@
   "dependencies": {
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "got": "^11.8.2",
     "nodemon": "^2.0.14",
     "npmlog": "^5.0.1",
     "sha256": "^0.2.0",

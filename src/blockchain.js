@@ -6,6 +6,8 @@ class Blockchain {
   constructor() {
     this.chain = [];
     this.pendingTransactions = [];
+    this.networkNodes = [];
+    this.localUrl = '';
     // Create Genesis Block
     this.CreateNewBlock(0, 'ZTB', 'ZTB');
   }
@@ -62,6 +64,12 @@ class Blockchain {
     // console.log(`Block ${hash} Mined Succesfully! Nonce: ${nonce}`);
     return nonce;
     // return this.CreateNewBlock(nonce, previousBlockHash, hash);
+  }
+
+  RegisterNode(address) {
+    if (this.networkNodes.indexOf(address) === -1) {
+      this.networkNodes.push(address);
+    }
   }
 }
 
