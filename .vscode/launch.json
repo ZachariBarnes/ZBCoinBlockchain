@@ -1,0 +1,58 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch via NPM",
+            "runtimeVersion": "default",
+            "cwd": "${workspaceFolder}",
+            "program": "${workspaceFolder}/dist/main.js",
+            "protocol": "inspector",
+            "console": "internalConsole",
+            "runtimeExecutable": "/Users/epozf/.nvm/versions/node/v14.17.0/bin/node",
+            "outputCapture": "std",
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch app w/ ts-node",
+            "protocol": "inspector",
+            "args": [
+                "src/main.ts"
+            ],
+            "cwd": "${workspaceRoot}",
+            "runtimeExecutable": "/Users/epozf/.nvm/versions/node/v14.17.0/bin/node",
+            "runtimeArgs": [
+                "-r",
+                "ts-node/register"
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "console": "internalConsole",
+            "outputCapture": "std",
+            "smartStep": true,
+            "env": {
+                "NODE_EXTRA_CA_CERTS": "/Users/epozf/Documents/Certificates/monsanto-all.pem"
+            }
+        },
+        {
+            "name": "Debug Jest Tests",
+            "type": "node",
+            "request": "launch",
+            "port": 5858,
+            "protocol": "inspector",
+            "runtimeArgs": [
+                "--inspect-brk=5858",
+                "${workspaceRoot}/node_modules/.bin/jest",
+                "--runInBand",
+                "--coverage",
+                "false"
+            ],
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen"
+        }
+    ]
+}
