@@ -3,6 +3,7 @@ const uuid = require('uuid');
 const express = require('express');
 const logger = require('npmlog');
 const got = require('got');
+const cors = require('cors');
 const Blockchain = require('./blockchain');
 
 const nodeAddress = uuid.v4().split('-').join('');
@@ -14,6 +15,7 @@ zbCoin.localUrl = myUrl;
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cors());
 
 app.get('/blockchain', (req, res) => {
   res.send(zbCoin);
@@ -41,49 +43,52 @@ app.get('/pending-transactions', (req, res) => {
   res.status(200).send(zbCoin.GetLastBlock().pendingTransactions);
 });
 
-app.port('/register-and-broadcast-node', (req, res) => {
+app.post('/register-and-broadcast-node', (req, res) => {
+  logger.info('Registering new node and broadcasting to the network');
   const { newNodeUrl } = req.body;
-  zbCoin.registerNewNode(newNodeUrl);
-  const { networkNodes } = zbCoin;
-  const registerNodeProises = [];
-  networkNodes.forEach((node) => {
-    const uri = `${node}/register-node`;
+  logger.info(`ZbCoin.networkNodes: ${zbCoin.networkNodes}`);
+
+  zbCoin.RegisterNode(newNodeUrl);
+  // const { networkNodes } = zbCoin;
+  logger.info(`ZbCoin.networkNodes: ${zbCoin.networkNodes}`);
+  const registerNodePromises = [];
+  zbCoin.networkNodes.forEach((node) => {
+    const url = `${node}/register-node`;
     const requestOptions = {
-      uri,
       method: 'POST',
-      body: { newNodeUrl },
-      json: true,
+      json: { newNodeUrl },
     };
-    registerNodeProises.push(got(requestOptions));
+    registerNodePromises.push(got.post(url, requestOptions));
   });
 
-  Promise.all(registerNodeProises)
+  Promise.all(registerNodePromises)
     .then(() => {
-      const bulkRegisterOptions = {
-        uri: `${newNodeUrl}/register-nodes-bulk`,
-        method: 'POST',
-        body: { allNetworkNodes: [...zbCoin.networkNodes, zbCoin.localUrl] },
-        json: true,
-      };
-      return got(bulkRegisterOptions);
+      const body = { allNetworkNodes: [...zbCoin.networkNodes, zbCoin.localUrl] };
+      const url = `${newNodeUrl}/register-nodes-bulk`;
+      got.post(url, { json: body });
     }).then((data) => {
       res.json({ note: 'New node registered with network successfully.', network: data });
     })
-    .catch((err) => logger.error(err));
+    .catch((err) => {
+      logger.error(err);
+      return res.status(500).json({ note: 'Error registering node with network.', error: err });
+    });
 });
 
 app.post('/register-node', (req, res) => {
+  logger.info('Registering new node with network');
   const { newNodeUrl } = req.body;
-  zbCoin.registerNewNode(newNodeUrl);
-  res.send(zbCoin.networkNodes);
+  zbCoin.RegisterNode(newNodeUrl);
+  res.json({ note: `New node registered Successfully with node. Number of nodes: ${zbCoin.networkNodes.length}` });
 });
 
-app.post('/register-nodes=bulk', (req, res) => {
+app.post('/register-nodes-bulk', (req, res) => {
+  logger.info('Registering new nodes with network');
   const { allNetworkNodes } = req.body;
   allNetworkNodes.forEach((node) => {
-    zbCoin.registerNewNode(node);
+    zbCoin.RegisterNode(node);
   });
-  res.send(zbCoin.networkNodes);
+  res.json({ note: `Bulk node registration Successfull. Number of nodes: ${zbCoin.networkNodes.length}` });
 });
 
 app.listen(port, () => {

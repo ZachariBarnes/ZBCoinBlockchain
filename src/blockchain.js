@@ -13,7 +13,7 @@ class Blockchain {
   }
 
   CreateNewBlock(nonce, previousBlockHash, hash) {
-    if (this.chain.length > 1) {
+    if (this.chain.length >= 1) {
       if (hash.slice(0, 4) !== HASH_PREFIX || previousBlockHash.slice(0, 4) !== HASH_PREFIX) {
         return null; // Invalid block, Don't Create a new block
       }
@@ -67,7 +67,7 @@ class Blockchain {
   }
 
   RegisterNode(address) {
-    if (this.networkNodes.indexOf(address) === -1) {
+    if (this.networkNodes.indexOf(address) === -1 && this.localUrl !== address) {
       this.networkNodes.push(address);
     }
   }

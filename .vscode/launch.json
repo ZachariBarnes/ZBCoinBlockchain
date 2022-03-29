@@ -14,7 +14,7 @@
             "protocol": "inspector",
             "console": "internalConsole",
             "runtimeExecutable": "/Users/epozf/.nvm/versions/node/v14.17.0/bin/node",
-            "outputCapture": "std",
+            "outputCapture": "std"
         },
         {
             "type": "node",
@@ -53,6 +53,20 @@
             ],
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen"
+        },
+        {
+            "type": "node",
+            "name": "vscode-jest-tests",
+            "request": "launch",
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "disableOptimisticBPs": true,
+            "program": "${workspaceFolder}\\jest",
+            "cwd": "${workspaceFolder}",
+            "args": [
+                "--runInBand",
+                "--watchAll=false"
+            ]
         }
     ]
 }
